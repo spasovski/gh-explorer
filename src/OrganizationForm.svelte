@@ -1,17 +1,19 @@
 <script>
   import LoadingDots from './LoadingDots.svelte';
-  import { currentPage, organization, fetching, repos, unsortedRepos, sortBy, fetchError} from './utils/stores';
+  import { currentPage, organization, fetching, repos, unsortedRepos, sortBy, fetchError, listedOrg} from './utils/stores';
   import { PARAMS, PARAM_DEFAULTS } from './utils/constants';
   import { updateURI } from './utils/url';
   import { getRepos } from './utils/api';
 
 
-  let name = '';
+  let name = $organization;
 
   function changeOrgName(evt) {
     evt.preventDefault();
-    $organization = name;
-    $currentPage = 1;
+    if (!$organization) return;
+
+    $currentPage = '1';
+    $listedOrg = $organization;
     updateURI([{[PARAMS.organization]: $organization}, {[PARAMS.page]: $currentPage}]);
     getRepos('', $organization, $currentPage, $sortBy);
   }
@@ -19,7 +21,13 @@
 
 <form class="org-form" on:submit={changeOrgName}>
   <label for="org-name-input">Organization Name</label>
-  <input type="text" placeholder="enter github organization name" bind:value={name} class="org-name-input" id="org-name-input">
+  <input
+    type="text"
+    placeholder="enter github organization name"
+    bind:value={$organization}
+    class="org-name-input"
+    id="org-name-input"
+  >
   <button type="submit" class="btn {$fetching ? 'loading' : ''}">
     {#if $fetching}
       <LoadingDots />

@@ -1,6 +1,6 @@
 <script>
   import { fly } from 'svelte/transition';
-  import { currentPage, fetching, organization, repos, unsortedRepos, sortBy, fetchError} from './utils/stores';
+  import { currentPage, fetching, organization, repos, unsortedRepos, sortBy, fetchError, listedOrg} from './utils/stores';
   import { PARAMS, PARAM_DEFAULTS } from './utils/constants';
   import { updateURI } from './utils/url';
   import { getSortedRepos } from './utils/utils';
@@ -21,7 +21,7 @@
   const getDateString = date => (new Date(date)).toLocaleDateString();
 </script>
 
-{#if !$fetchError}<h2>{$organization} repositories</h2>{/if}
+{#if !$fetchError}<h2>{$listedOrg} repositories</h2>{/if}
 {#if reposToList && !$fetching && !$fetchError}
   <table class="repo-table">
     <thead>

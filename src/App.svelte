@@ -6,16 +6,8 @@
 	import { PARAMS, PARAM_DEFAULTS, RESULTS_PER_PAGE } from './utils/constants';
   import { updateURI } from './utils/url';
   import { getRepos } from './utils/api';
-  import { currentPage, organization, repos, unsortedRepos, sortBy} from './utils/stores';
+  import { currentPage, organization, sortBy, listedOrg} from './utils/stores';
 
-
-	const updateRepos = ({detail}) => {
-		const url = detail.url;
-		const params = new URLSearchParams(url);
-		$currentPage = params.get(PARAMS.page);
-		updateURI([{[PARAMS.page]: $currentPage}]);
-		populateRepos(url);
-  }
 
 	function populateInitialParamState() {
     const params = new URLSearchParams(window.location.search);
@@ -24,6 +16,7 @@
     for (let [name, value] of params.entries()) {
       if (name === PARAMS.organization) {
         $organization = value;
+        $listedOrg = value;
       } else if (name === PARAMS.page) {
         $currentPage = value;
       } else if (name === PARAMS.sort) {
