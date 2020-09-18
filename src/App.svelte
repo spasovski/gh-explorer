@@ -1,15 +1,15 @@
 <script>
-	import { onMount } from 'svelte';
-	import OrganizationForm from './OrganizationForm.svelte';
-	import RepoList from './RepoList.svelte';
-	import Paginator from './Paginator.svelte';
-	import { PARAMS, PARAM_DEFAULTS, RESULTS_PER_PAGE } from './utils/constants';
+  import { onMount } from 'svelte';
+  import OrganizationForm from './OrganizationForm.svelte';
+  import RepoList from './RepoList.svelte';
+  import Paginator from './Paginator.svelte';
+  import { PARAMS, PARAM_DEFAULTS, RESULTS_PER_PAGE } from './utils/constants';
   import { updateURI } from './utils/url';
   import { getRepos } from './utils/api';
   import { currentPage, organization, sortBy, listedOrg} from './utils/stores';
 
 
-	function populateInitialParamState() {
+  function populateInitialParamState() {
     const params = new URLSearchParams(window.location.search);
 
     // set local vars from url params if any
@@ -22,23 +22,23 @@
       } else if (name === PARAMS.sort) {
         $sortBy = value;
       }
-		}
+    }
   }
 
-	onMount(() => {
+  onMount(() => {
     populateInitialParamState();
     getRepos('', $organization, $currentPage, $sortBy);
   });
 </script>
 
 <div class="global-container">
-	<header class="global-header">
-		<h1>GitHub Explorer</h1>
-	</header>
+  <header class="global-header">
+    <h1>GitHub Explorer</h1>
+  </header>
 
-	<main>
+  <main>
     <OrganizationForm />
     <Paginator />
     <RepoList />
-	</main>
+  </main>
 </div>
